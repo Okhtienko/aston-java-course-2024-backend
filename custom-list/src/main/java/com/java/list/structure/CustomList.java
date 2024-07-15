@@ -1,4 +1,4 @@
-package com.java.list.utils;
+package com.java.list.structure;
 
 import java.util.Collection;
 import java.util.Comparator;
