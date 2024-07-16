@@ -1,13 +1,15 @@
 package com.java.list.collection;
 
-import com.java.list.utils.CustomList;
+import com.java.list.structure.CustomList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -211,5 +213,26 @@ class CustomArrayListTest {
         assertEquals(1, array[0]);
         assertEquals(2, array[1]);
         assertEquals(3, array[2]);
+    }
+
+    @Test
+    void testActionNull() {
+        CustomList<Integer> list = new CustomArrayList<>();
+        list.addAll(List.of(1, 2, 3));
+        assertThrows(NullPointerException.class, () -> list.forEach(null));
+    }
+
+    @Test
+    void testStream() {
+        CustomList<Integer> list = new CustomArrayList<>();
+        list.addAll(List.of(1, 2, 3));
+        assertNotNull(list.stream());
+    }
+
+    @Test
+    void testRemoveException() {
+        CustomArrayList<Integer> list = new CustomArrayList<>();
+        Iterator<Integer> iterator = list.iterator();
+        assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
     }
 }
