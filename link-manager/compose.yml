@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  tomcat:
+    container_name: "tomcat"
+    image: tomcat:11.0.0-jdk21
+    environment:
+      JPDA_ADDRESS: "*:8000"
+      JPDA_TRANSPORT: "dt_socket"
+    volumes:
+      - "./target/link-manager-0.1.war:/usr/local/tomcat/webapps/link-manager.war"
+    entrypoint: "/usr/local/tomcat/bin/catalina.sh run"
+    ports:
+      - "8081:8080"
+  postgresql:
+    image: postgres:16
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: link_manager
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - backend
+  liquibase-migrations:
+    image: liquibase/liquibase:4.25
+    container_name: liquibase
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/link_manager
+      - --username=postgres
+      - --password=postgres
+      - update
+    volumes:
+      - ./migrations:/liquibase/changelog
+    networks:
+      - backend
+volumes:
+  postgresql: { }
+
+networks:
+  backend: { }
