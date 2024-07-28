@@ -15,6 +15,6 @@ public class SaveChatStrategy implements RequestStrategy {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
         service.save(name);
-        response.sendRedirect(request.getContextPath() + "/?action=show");
+        response.sendRedirect(request.getContextPath() + "/?action=showChat");
     }
 }

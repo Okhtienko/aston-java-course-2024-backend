@@ -15,6 +15,6 @@ public class DeleteChatStrategy implements RequestStrategy {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Long id = Long.parseLong(request.getParameter("chatId"));
         service.delete(id);
-        response.sendRedirect(request.getContextPath() + "/?action=show");
+        response.sendRedirect(request.getContextPath() + "/?action=showChat");
     }
 }
